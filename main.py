@@ -1,4 +1,5 @@
 import requests
+import numpy as np
 
 def get_lat_lon(city_name):
     """通过城市名获取经纬度"""
@@ -28,19 +29,8 @@ def get_weekly_avg_temperature(lat, lon):
     min_temps = data["daily"]["temperature_2m_min"]
 
     # 计算平均温度
-    avg_temps = [(max_temps[i] + min_temps[i]) / 2 for i in range(len(dates))]
-
-    # 整理成数组
-    weekly_data = []
-    for i in range(len(dates)):
-        weekly_data.append({
-            "date": dates[i],
-            "avg_temp": round(avg_temps[i], 1),
-            "max_temp": max_temps[i],
-            "min_temp": min_temps[i]
-        })
-
-    return weekly_data
+    temps_celsius = np.array([(max_temps[i] + min_temps[i]) / 2 for i in range(len(dates))])
+    return temps_celsius
 
 if __name__ == "__main__":
     city = input("请输入城市名：")
@@ -52,5 +42,10 @@ if __name__ == "__main__":
         print(f"\n📅 {city} 接下来7天的平均气温：")
         for day in weekly_temps:
             print(day)
+        max_temp = np.max(weekly_temps)
+        min_temp = np.min(weekly_temps)
+        weekly_avg=np.mean(weekly_temps)
+        avg_temps_f = weekly_temps * 9/5 + 32
+        weekly_avg_f = weekly_avg * 9/5 + 32
     except Exception as e:
         print("❌ 出错：", e)
