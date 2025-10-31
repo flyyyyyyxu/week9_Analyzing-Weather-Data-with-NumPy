@@ -47,5 +47,13 @@ if __name__ == "__main__":
         weekly_avg=np.mean(weekly_temps)
         avg_temps_f = weekly_temps * 9/5 + 32
         weekly_avg_f = weekly_avg * 9/5 + 32
+        days_above_20=np.sum(weekly_temps>20)
+        print(f"最高平均气温：{max_temp:.1f}°C")
+        print(f"最低平均气温：{min_temp:.1f}°C")
+        print(f"一周平均气温：{weekly_avg:.1f}°C")
+        print(f"转换为华氏度后：{weekly_avg_f:.1f}°F")
+        print(f"\n七天平均气温(°F):{np.round(avg_temps_f, 1)}")
+        print(f"高于20°C的天数:{int(days_above_20)} 天")
+
     except Exception as e:
         print("❌ 出错：", e)
